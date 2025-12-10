@@ -1,0 +1,98 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+h3 {
+    margin: 20px 0 10px;
+    color: #555;
+}
+
+input, select {
+    padding: 8px 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.btn-group {
+    margin: 20px 0;
+}
+
+.contact-list {
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.contact-item {
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.starred {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+/* 联系人条目样式 */
+.contact-item {
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    background-color: #fff;
+    transition: box-shadow 0.2s;
+}
+.contact-item:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+/* 收藏的联系人样式（黄色背景） */
+.contact-item.starred {
+    background-color: #fff8e1;
+    border-left: 4px solid #ffc107;
+}
+/* 联系人信息排版 */
+.contact-info p {
+    margin: 6px 0;
+    color: #555;
+}

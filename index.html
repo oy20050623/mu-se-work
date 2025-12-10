@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>通讯录管理系统</title>
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>通讯录管理系统</h1>
+
+        <!-- 1. 添加联系人区域 -->
+        <div class="add-contact">
+            <h3>添加联系人</h3>
+            <input type="text" id="nameInput" placeholder="请输入姓名">
+            <button onclick="addContact()">添加联系人</button>
+        </div>
+
+        <!-- 2. 添加联系方式区域 -->
+        <div class="add-info">
+            <h3>添加联系方式</h3>
+            <input type="text" id="targetName" placeholder="联系人姓名">
+            <select id="infoType">
+                <option value="phone">电话</option>
+                <option value="email">邮箱</option>
+                <option value="social">社交账号</option>
+                <option value="address">地址</option>
+            </select>
+            <input type="text" id="infoContent" placeholder="联系方式内容">
+            <button onclick="addContactInfo()">添加信息</button>
+        </div>
+
+        <!-- 3. 功能按钮区域 -->
+        <div class="btn-group">
+            <button onclick="starContact()">收藏联系人</button>
+            <button onclick="exportExcel()">导出Excel</button>
+            <button onclick="importExcel()">导入Excel</button>
+            <button onclick="showAllContacts()">显示所有联系人</button>
+        </div>
+
+        <!-- 4. 联系人列表展示区域 -->
+        <div class="contact-list" id="contactList">
+            <!-- 这里用JS动态显示联系人 -->
+        </div>
+    </div>
+
+    <!-- 引入JS逻辑文件 -->
+    <script src="script.js"></script>
+</body>
+</html>
