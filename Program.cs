@@ -1,16 +1,12 @@
-using ContactBookAPI.Data;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Ìí¼Ó¿ØÖÆÆ÷
+// æ·»åŠ æ§åˆ¶å™¨
 builder.Services.AddControllers();
 
-// Ìí¼ÓÊı¾İ¿âÉÏÏÂÎÄ£¨SQLite£©
-builder.Services.AddDbContext<ContactBookDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("ContactBookDb")));
-
-// ÔÊĞí¿çÓò£¨¿ª·¢»·¾³£©
+// æ·»åŠ CORSï¼ˆè§£å†³è·¨åŸŸï¼‰
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -21,33 +17,64 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Swagger£¨½Ó¿ÚÎÄµµ£©
+// æ·»åŠ æ•°æ®åº“ä¸Šä¸‹æ–‡ï¼ˆSQL Serverï¼Œå¯æ›¿æ¢ä¸ºSQLite/MySQLï¼‰
+builder.Services.AddDbContext<ContactContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// é…ç½®EPPlusè®¸å¯è¯
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+// æ·»åŠ Swaggerï¼ˆå¯é€‰ï¼Œæ–¹ä¾¿è°ƒè¯•ï¼‰
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Ç¨ÒÆÊı¾İ¿â£¨×Ô¶¯´´½¨±í£©
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ContactBookDbContext>();
-    dbContext.Database.Migrate(); // ×Ô¶¯Ö´ĞĞÇ¨ÒÆ£¬ÎŞÇ¨ÒÆÔò´´½¨±í
-}
-
-// ¿ª·¢»·¾³ÆôÓÃSwagger
+// å¼€å‘ç¯å¢ƒå¯ç”¨Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// å¯ç”¨HTTPSï¼ˆæœ¬åœ°è°ƒè¯•å¯æ³¨é‡Šï¼‰
 app.UseHttpsRedirection();
 
-// ÆôÓÃ¿çÓò
+// å¯ç”¨CORS
 app.UseCors("AllowAll");
 
+// å¯ç”¨æˆæƒï¼ˆç®€å•ç¤ºä¾‹å¯æ³¨é‡Šï¼‰
 app.UseAuthorization();
 
+// æ˜ å°„æ§åˆ¶å™¨è·¯ç”±
 app.MapControllers();
 
 app.Run();
+
+// æ•°æ®åº“ä¸Šä¸‹æ–‡
+public class ContactContext : DbContext
+{
+    public ContactContext(DbContextOptions<ContactContext> options) : base(options) { }
+
+    public DbSet<Contact> Contacts => Set<Contact>();
+    public DbSet<ContactDetail> ContactDetails => Set<ContactDetail>();
+}
+
+// è”ç³»äººå®ä½“
+public class Contact
+{
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public bool IsBookmarked { get; set; }
+    public List<ContactDetail> ContactDetails { get; set; } = new List<ContactDetail>();
+}
+
+// è”ç³»æ–¹å¼å®ä½“
+public class ContactDetail
+{
+    public int Id { get; set; }
+    public int ContactId { get; set; }
+    public string Type { get; set; } = string.Empty; // ç”µè¯ã€å¾®ä¿¡ã€é‚®ç®±ç­‰
+    public string Value { get; set; } = string.Empty; // å…·ä½“å€¼
+    public Contact Contact { get; set; } = null!;
+}
